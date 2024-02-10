@@ -1,6 +1,6 @@
 package com.rinhadebackend.pixvulture.domain;
 
-import com.rinhadebackend.pixvulture.DomainException;
+import com.rinhadebackend.pixvulture.exception.DomainException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
