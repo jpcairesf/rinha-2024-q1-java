@@ -1,18 +1,18 @@
 package com.rinhadebackend.pixvulture.domain;
 
+import com.rinhadebackend.pixvulture.DomainException;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 
 @Entity @Getter @Setter
 @NoArgsConstructor
@@ -31,7 +31,20 @@ public class Cliente {
     @Column(name = "LIMITE", nullable = false)
     private Integer limite;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Transacao> transacoes;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private Set<Transacao> transacoes;
+
+    public void realizarCredito(Integer valor) {
+        this.saldo += valor;
+    }
+
+    public void realizarDebito(Integer valor) {
+        if (saldo - valor < -limite) throw new DomainException("Limite insuficiente para realização do débito.");
+        this.saldo += valor;
+    }
+
+    public void adicionarTransacao(Transacao transacao) {
+        this.transacoes.add(transacao);
+    }
 
 }

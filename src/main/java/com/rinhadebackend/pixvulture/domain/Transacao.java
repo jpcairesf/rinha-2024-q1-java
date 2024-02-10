@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -18,7 +19,8 @@ import lombok.Setter;
 @Entity @Getter @Setter
 @NoArgsConstructor
 @SequenceGenerator(name = "TRANSACAO_SEQ", sequenceName = "TRANSACAO_SEQ")
-@Table(name = "TRANSACAO")
+@Table(name = "TRANSACAO", indexes =
+    @Index(name = "REALIZADA_EM_INDEX", columnList = "REALIZADA_EM DESC"))
 public class Transacao {
 
     @Id
@@ -30,8 +32,7 @@ public class Transacao {
     private Cliente cliente;
 
     @Column(name = "TIPO", nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private Tipo tipo;
+    private char tipo;
 
     @Column(name = "VALOR", nullable = false)
     private Integer valor;
