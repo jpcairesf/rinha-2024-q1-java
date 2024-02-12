@@ -26,20 +26,16 @@ public class UrubuService {
 
     @Transactional
     public Optional<TransacaoResponse> realizarTransacao(Integer id, TransacaoRequest request) {
-        char tipo = request.tipo().charAt(0);
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
         if(clienteOptional.isEmpty()) return Optional.empty();
 
         Cliente cliente = clienteOptional.get();
+
+        char tipo = request.tipo().charAt(0);
         if(tipo == 'c') cliente.realizarCredito(request.valor());
         if(tipo == 'd') cliente.realizarDebito(request.valor());
 
-        Transacao transacao = new Transacao();
-        transacao.setCliente(cliente);
-        transacao.setTipo(tipo);
-        transacao.setValor(request.valor());
-        transacao.setDescricao(request.descricao());
-        transacao.setRealizadaEm(LocalDateTime.now());
+        Transacao transacao = criarTransacao(request, cliente, tipo);
 
         clienteRepository.save(cliente);
         transacaoRepository.save(transacao);
@@ -60,6 +56,16 @@ public class UrubuService {
         ExtratoSaldoResponse saldo = new ExtratoSaldoResponse(cliente.getSaldo(), LocalDateTime.now(), cliente.getLimite());
 
         return Optional.of(new ExtratoResponse(saldo, transacoes));
+    }
+
+    private Transacao criarTransacao(TransacaoRequest request, Cliente cliente, char tipo) {
+        Transacao transacao = new Transacao();
+        transacao.setCliente(cliente);
+        transacao.setTipo(tipo);
+        transacao.setValor(request.valor());
+        transacao.setDescricao(request.descricao());
+        transacao.setRealizadaEm(LocalDateTime.now());
+        return transacao;
     }
 
 }

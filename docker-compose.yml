@@ -10,10 +10,10 @@ services:
       - "8081:8080"
     depends_on:
       - postgres
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "0.6"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
 #          memory: "200MB"
 
   pixvulture2:
@@ -25,10 +25,10 @@ services:
       - "8082:8080"
     depends_on:
       - postgres
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "0.6"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
 #          memory: "200MB"
 
   postgres:
@@ -42,10 +42,10 @@ services:
       - ./script.sql:/docker-entrypoint-initdb.d/script.sql
     ports:
       - "5432:5432"
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "0.13"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
 #          memory: "140MB"
 
   nginx:
@@ -57,10 +57,10 @@ services:
       - pixvulture2
     ports:
       - "9999:9999"
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "0.17"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
 #          memory: "10MB"
 
 #  pgadmin:
