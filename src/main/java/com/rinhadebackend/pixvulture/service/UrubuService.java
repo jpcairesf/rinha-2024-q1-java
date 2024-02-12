@@ -5,8 +5,8 @@ import com.rinhadebackend.pixvulture.domain.Transacao;
 import com.rinhadebackend.pixvulture.model.ExtratoResponse;
 import com.rinhadebackend.pixvulture.model.ExtratoSaldoResponse;
 import com.rinhadebackend.pixvulture.model.ExtratoTransacaoResponse;
-import com.rinhadebackend.pixvulture.model.TransacaoResponse;
 import com.rinhadebackend.pixvulture.model.TransacaoRequest;
+import com.rinhadebackend.pixvulture.model.TransacaoResponse;
 import com.rinhadebackend.pixvulture.repository.ClienteRepository;
 import com.rinhadebackend.pixvulture.repository.TransacaoRepository;
 import java.time.LocalDateTime;
@@ -26,26 +26,27 @@ public class UrubuService {
 
     @Transactional
     public Optional<TransacaoResponse> realizarTransacao(Integer id, TransacaoRequest request) {
+        char tipo = request.tipo().charAt(0);
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
-        if (clienteOptional.isEmpty()) return Optional.empty();
+        if(clienteOptional.isEmpty()) return Optional.empty();
 
         Cliente cliente = clienteOptional.get();
-        if(request.tipo() == 'c') cliente.realizarCredito(request.valor());
-        if(request.tipo() == 'd') cliente.realizarDebito(request.valor());
+        if(tipo == 'c') cliente.realizarCredito(request.valor());
+        if(tipo == 'd') cliente.realizarDebito(request.valor());
 
         Transacao transacao = new Transacao();
         transacao.setCliente(cliente);
-        transacao.setTipo(request.tipo());
+        transacao.setTipo(tipo);
         transacao.setValor(request.valor());
         transacao.setDescricao(request.descricao());
         transacao.setRealizadaEm(LocalDateTime.now());
-        cliente.adicionarTransacao(transacao);
 
         clienteRepository.save(cliente);
+        transacaoRepository.save(transacao);
         return Optional.of(new TransacaoResponse(cliente.getLimite(), cliente.getSaldo()));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<ExtratoResponse> extrato(Integer id) {
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
         if (clienteOptional.isEmpty()) return Optional.empty();

@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,9 +32,6 @@ public class Cliente {
     @Column(name = "LIMITE", nullable = false)
     private Integer limite;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private Set<Transacao> transacoes;
-
     public void realizarCredito(Integer valor) {
         this.saldo += valor;
     }
@@ -41,10 +39,6 @@ public class Cliente {
     public void realizarDebito(Integer valor) {
         if (saldo - valor < -limite) throw new DomainException("Limite insuficiente para realização do débito.");
         this.saldo += valor;
-    }
-
-    public void adicionarTransacao(Transacao transacao) {
-        this.transacoes.add(transacao);
     }
 
 }
