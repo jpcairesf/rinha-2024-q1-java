@@ -11,11 +11,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@SequenceGenerator(name = "CLIENTE_SEQ", sequenceName = "CLIENTE_SEQ")
+@SequenceGenerator(name = "CLIENTE_SEQ", sequenceName = "CLIENTE_SEQ", allocationSize = 1)
 @Table(name = "CLIENTE")
 public class Cliente {
 

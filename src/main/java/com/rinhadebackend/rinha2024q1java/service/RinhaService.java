@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Limit;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -33,20 +34,20 @@ public class RinhaService {
     public Optional<TransacaoResponse> realizarTransacao(Integer id, TransacaoRequest request) {
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
         if(clienteOptional.isEmpty()) return Optional.empty();
-
         Cliente cliente = clienteOptional.get();
 
         char tipo = request.tipo().charAt(0);
-        if(tipo == 'c') cliente.realizarCredito(request.valor());
-        if(tipo == 'd') cliente.realizarDebito(request.valor());
+        if(tipo == 'c') cliente.realizarCredito(request.valor().intValue());
+        if(tipo == 'd') cliente.realizarDebito(request.valor().intValue());
 
         Transacao transacao = criarTransacao(request, cliente, tipo);
         cliente.addTransacao(transacao);
         clienteRepository.save(cliente);
+
         return Optional.of(new TransacaoResponse(cliente.getLimite(), cliente.getSaldo()));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<ExtratoResponse> extrato(Integer id) {
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
         if (clienteOptional.isEmpty()) return Optional.empty();
@@ -66,7 +67,7 @@ public class RinhaService {
         Transacao transacao = new Transacao();
         transacao.setCliente(cliente);
         transacao.setTipo(tipo);
-        transacao.setValor(request.valor());
+        transacao.setValor(request.valor().intValue());
         transacao.setDescricao(request.descricao());
         transacao.setRealizadaEm(LocalDateTime.now());
         return transacao;

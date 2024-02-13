@@ -13,7 +13,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.45"
+          cpus: "0.35"
           memory: "120MB"
 
   rinha2:
@@ -28,7 +28,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.45"
+          cpus: "0.35"
           memory: "120MB"
 
   postgres:
@@ -45,7 +45,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.7"
           memory: "300MB"
 
   nginx:
@@ -62,13 +62,3 @@ services:
         limits:
           cpus: "0.1"
           memory: "10MB"
-
-#  pgadmin:
-#    image: dpage/pgadmin4
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
-#      PGADMIN_DEFAULT_PASSWORD: "admin"
-#    ports:
-#      - "16543:80"
-#    depends_on:
-#      - postgres
