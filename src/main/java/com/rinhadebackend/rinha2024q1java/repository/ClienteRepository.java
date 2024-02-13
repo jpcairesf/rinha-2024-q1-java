@@ -1,6 +1,6 @@
-package com.rinhadebackend.pixvulture.repository;
+package com.rinhadebackend.rinha2024q1java.repository;
 
-import com.rinhadebackend.pixvulture.domain.Cliente;
+import com.rinhadebackend.rinha2024q1java.domain.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

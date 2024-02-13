@@ -1,10 +1,10 @@
-package com.rinhadebackend.pixvulture;
+package com.rinhadebackend.rinha2024q1java;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PixVultureApplicationTests {
+class RinhaJavaApplicationTests {
 
 	@Test
 	void contextLoads() {

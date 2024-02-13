@@ -1,4 +1,4 @@
-package com.rinhadebackend.pixvulture.model;
+package com.rinhadebackend.rinha2024q1java.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

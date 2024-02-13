@@ -1,6 +1,6 @@
-package com.rinhadebackend.pixvulture.repository;
+package com.rinhadebackend.rinha2024q1java.repository;
 
-import com.rinhadebackend.pixvulture.domain.Transacao;
+import com.rinhadebackend.rinha2024q1java.domain.Transacao;
 import java.util.List;
 import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;

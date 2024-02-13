@@ -1,11 +1,11 @@
-package com.rinhadebackend.pixvulture.controller;
+package com.rinhadebackend.rinha2024q1java.controller;
 
-import com.rinhadebackend.pixvulture.model.ExtratoResponse;
-import com.rinhadebackend.pixvulture.model.TransacaoResponse;
-import com.rinhadebackend.pixvulture.model.TransacaoRequest;
-import com.rinhadebackend.pixvulture.service.UrubuService;
+import com.rinhadebackend.rinha2024q1java.model.ExtratoResponse;
+import com.rinhadebackend.rinha2024q1java.model.TransacaoRequest;
+import com.rinhadebackend.rinha2024q1java.model.TransacaoResponse;
+import com.rinhadebackend.rinha2024q1java.service.RinhaService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +21,14 @@ import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/clientes")
-@RequiredArgsConstructor
 public class ClienteController {
 
-    private final UrubuService service;
+    private final RinhaService service;
+
+    @Autowired
+    public ClienteController(RinhaService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<String> health() {
