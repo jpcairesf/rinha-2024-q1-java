@@ -13,6 +13,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT c FROM Cliente c WHERE c.id = :id")
-    Optional<Cliente> findByIdLockWrite(Integer id);
+    Optional<Cliente> findByIdWithPessimisticWriteLock(Integer id);
 
 }

@@ -12,10 +12,13 @@ import com.rinhadebackend.rinha2024q1java.repository.TransacaoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.exception.LockAcquisitionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.data.domain.Limit;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -30,6 +33,10 @@ public class RinhaService {
         this.transacaoRepository = transacaoRepository;
     }
 
+    @Retryable(
+            retryFor = { CannotAcquireLockException.class, LockAcquisitionException.class },
+            backoff = @Backoff(delay = 200, maxDelay = 8000) // UniformRandomBackOffPolicy
+    )
     @Transactional
     public Optional<TransacaoResponse> realizarTransacao(Integer id, TransacaoRequest request) {
         Optional<Cliente> clienteOptional = clienteRepository.findById(id);
