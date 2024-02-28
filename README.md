@@ -24,5 +24,11 @@ Enter in the simulation project folder `cd rinha-de-backend-2024-q1` and edit th
 Inside the simulation project folder, run the containers and the Gatling simulation using
 `docker-compose -f ./../rinha-2024-q1-java/docker-compose.yml up -d && sh executar-teste-local.sh`
 
+### Constraints
+Some constraints were applied to guarantee a fair and more competitive scenario to the challenge.
+- 1.5 CPU to distribute between the containers
+- 550 MB of memory to distribute between the containers
+- Must be able to run in AMD64 architecture
+
 ### Results
 Test results will be generated in the simulation project `rinha-de-backend-2024-q1/load-test/user-files/results`. Open the index.html file.
